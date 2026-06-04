@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, initial-scale=1.0" />
+  <title>H&B Wellness Day Sale Countdown</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #111;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .countdown-artboard {
+      position: relative;
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      background: #005335;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      isolation: isolate;
+    }
+
+    .countdown-artboard::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255, 205, 70, 0.16), transparent 28%),
+        radial-gradient(circle at 28% 85%, rgba(255, 205, 70, 0.10), transparent 24%),
+        radial-gradient(circle at 74% 74%, rgba(255, 205, 70, 0.08), transparent 30%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      width: 86%;
+      max-width: 940px;
+      padding: 70px;
+    }
+
+    .eyebrow {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      opacity: 0.95;
+    }
+
+    h1 {
+      font-size: 118px;
+      line-height: 0.96;
+      font-weight: 900;
+      letter-spacing: -0.055em;
+      margin-bottom: 72px;
+      text-wrap: balance;
+    }
+
+    .timer {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+      width: 100%;
+    }
+
+    .time-card {
+      border: 3px solid rgba(255, 255, 255, 0.92);
+      border-radius: 28px;
+      padding: 34px 18px 30px;
+      background: rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(2px);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+    }
+
+    .number {
+      display: block;
+      font-size: 84px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .label {
+      display: block;
+      margin-top: 16px;
+      font-size: 25px;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .date-line {
+      margin-top: 44px;
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .confetti-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .confetti {
+      position: absolute;
+      top: -40px;
+      width: var(--w);
+      height: var(--h);
+      left: var(--x);
+      background: var(--gold);
+      opacity: var(--opacity);
+      transform: rotate(var(--rotate));
+      animation: fall var(--duration) linear var(--delay) infinite;
+      border-radius: 2px;
+      box-shadow: 0 0 10px rgba(255, 214, 87, 0.35);
+    }
+
+    .confetti.circle {
+      border-radius: 50%;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translate3d(0, -80px, 0) rotate(0deg);
+      }
+      50% {
+        transform: translate3d(var(--drift), 540px, 0) rotate(360deg);
+      }
+      100% {
+        transform: translate3d(calc(var(--drift) * -0.4), 1160px, 0) rotate(720deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="countdown-artboard" aria-label="H&B Wellness Day Sale countdown">
+    <section class="content">
+      <div class="eyebrow">Countdown to</div>
+
+      <h1>H&amp;B Wellness Day Sale</h1>
+
+      <div class="timer" aria-live="polite">
+        <div class="time-card">
+          <span class="number" id="days">000</span>
+          <span class="label">Days</span>
+        </div>
+
+        <div class="time-card">
+          <span class="number" id="hours">00</span>
+          <span class="label">Hours</span>
+        </div>
+
+        <div class="time-card">
+          <span class="number" id="minutes">00</span>
+          <span class="label">Mins</span>
+        </div>
+
+        <div class="time-card">
+          <span class="number" id="seconds">00</span>
+          <span class="label">Secs</span>
+        </div>
+      </div>
+
+      <div class="date-line">In stores 12 June 2026</div>
+    </section>
+
+    <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+  </main>
+
+  <script>
+    // Countdown target: 12 June 2026, 00:00 UK time.
+    const targetDate = new Date("2026-06-12T00:00:00+01:00").getTime();
+
+    const daysEl = document.getElementById("days");
+    const hoursEl = document.getElementById("hours");
+    const minutesEl = document.getElementById("minutes");
+    const secondsEl = document.getElementById("seconds");
+
+    function pad(number, length = 2) {
+      return String(number).padStart(length, "0");
+    }
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = Math.max(0, targetDate - now);
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((distance / (1000 * 60)) % 60);
+      const seconds = Math.floor((distance / 1000) % 60);
+
+      daysEl.textContent = pad(days, 3);
+      hoursEl.textContent = pad(hours);
+      minutesEl.textContent = pad(minutes);
+      secondsEl.textContent = pad(seconds);
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // Gold confetti overlay.
+    const confettiLayer = document.getElementById("confettiLayer");
+    const golds = ["#FFD86B", "#D7A83F", "#FFF1A8", "#B88A22", "#F5C542"];
+    const pieces = 115;
+
+    for (let i = 0; i < pieces; i++) {
+      const piece = document.createElement("span");
+      piece.className = "confetti" + (Math.random() > 0.78 ? " circle" : "");
+
+      piece.style.setProperty("--x", `${Math.random() * 100}%`);
+      piece.style.setProperty("--w", `${6 + Math.random() * 12}px`);
+      piece.style.setProperty("--h", `${8 + Math.random() * 20}px`);
+      piece.style.setProperty("--gold", golds[Math.floor(Math.random() * golds.length)]);
+      piece.style.setProperty("--opacity", `${0.45 + Math.random() * 0.55}`);
+      piece.style.setProperty("--rotate", `${Math.random() * 360}deg`);
+      piece.style.setProperty("--duration", `${5 + Math.random() * 7}s`);
+      piece.style.setProperty("--delay", `${Math.random() * -12}s`);
+      piece.style.setProperty("--drift", `${-180 + Math.random() * 360}px`);
+
+      confettiLayer.appendChild(piece);
+    }
+  </script>
+</body>
+</html>
