@@ -1,267 +1,283 @@
-<style>
-  .hb-countdown-wrap {
-    width: 100%;
-    max-width: 1080px;
-    margin: 0 auto;
-  }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>H&B Wellness Day Sale Countdown</title>
 
-  .hb-countdown-artboard {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
-    background: #005335;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    isolation: isolate;
-    font-family: Arial, Helvetica, sans-serif;
-  }
+  <style>
+    /*
+      Responsive 1:1 countdown.
+      Drop the block from <style> to </script> into your website section.
 
-  .hb-countdown-artboard * {
-    box-sizing: border-box;
-  }
+      The countdown fills the width of the area it is placed in, keeps a 1:1 ratio,
+      and is capped at 275px wide by default.
+    */
 
-  .hb-countdown-artboard::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at 50% 18%, rgba(255, 205, 70, 0.16), transparent 28%),
-      radial-gradient(circle at 28% 85%, rgba(255, 205, 70, 0.10), transparent 24%),
-      radial-gradient(circle at 74% 74%, rgba(255, 205, 70, 0.08), transparent 30%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .hb-countdown-content {
-    position: relative;
-    z-index: 2;
-    width: 86%;
-    max-width: 940px;
-    padding: clamp(24px, 6vw, 70px);
-  }
-
-  .hb-countdown-eyebrow {
-    font-size: clamp(16px, 3.2vw, 34px);
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin-bottom: clamp(14px, 2.6vw, 28px);
-    opacity: 0.95;
-  }
-
-  .hb-countdown-title {
-    font-size: clamp(42px, 10.8vw, 118px);
-    line-height: 0.96;
-    font-weight: 900;
-    letter-spacing: -0.055em;
-    margin: 0 0 clamp(32px, 6.6vw, 72px);
-  }
-
-  .hb-countdown-timer {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: clamp(8px, 2vw, 22px);
-    width: 100%;
-  }
-
-  .hb-countdown-card {
-    border: clamp(1px, 0.3vw, 3px) solid rgba(255, 255, 255, 0.92);
-    border-radius: clamp(12px, 2.6vw, 28px);
-    padding: clamp(14px, 3.2vw, 34px) clamp(8px, 1.6vw, 18px) clamp(12px, 2.8vw, 30px);
-    background: rgba(0, 0, 0, 0.08);
-    backdrop-filter: blur(2px);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
-  }
-
-  .hb-countdown-number {
-    display: block;
-    font-size: clamp(28px, 7.8vw, 84px);
-    line-height: 1;
-    font-weight: 900;
-    letter-spacing: -0.04em;
-  }
-
-  .hb-countdown-label {
-    display: block;
-    margin-top: clamp(6px, 1.5vw, 16px);
-    font-size: clamp(10px, 2.3vw, 25px);
-    line-height: 1;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .hb-countdown-date {
-    margin-top: clamp(20px, 4vw, 44px);
-    font-size: clamp(16px, 3.2vw, 34px);
-    font-weight: 800;
-    letter-spacing: 0.02em;
-  }
-
-  .hb-confetti-layer {
-    position: absolute;
-    inset: 0;
-    z-index: 4;
-    pointer-events: none;
-    overflow: hidden;
-  }
-
-  .hb-confetti {
-    position: absolute;
-    top: -40px;
-    width: var(--w);
-    height: var(--h);
-    left: var(--x);
-    background: var(--gold);
-    opacity: var(--opacity);
-    transform: rotate(var(--rotate));
-    animation: hb-confetti-fall var(--duration) linear var(--delay) infinite;
-    border-radius: 2px;
-    box-shadow: 0 0 10px rgba(255, 214, 87, 0.35);
-  }
-
-  .hb-confetti.circle {
-    border-radius: 50%;
-  }
-
-  @keyframes hb-confetti-fall {
-    0% {
-      transform: translate3d(0, -80px, 0) rotate(0deg);
+    .hb-countdown-wrap {
+      width: 100%;
+      max-width: 275px;
+      aspect-ratio: 1 / 1;
+      margin: 0 auto;
     }
 
-    50% {
-      transform: translate3d(var(--drift), 50vw, 0) rotate(360deg);
+    .hb-countdown-artboard {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: #005335;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      isolation: isolate;
+      font-family: Arial, Helvetica, sans-serif;
+      container-type: inline-size;
     }
 
-    100% {
-      transform: translate3d(calc(var(--drift) * -0.4), 110vw, 0) rotate(720deg);
+    .hb-countdown-artboard,
+    .hb-countdown-artboard * {
+      box-sizing: border-box;
     }
-  }
 
-  @media (max-width: 480px) {
+    .hb-countdown-artboard::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255, 205, 70, 0.16), transparent 28%),
+        radial-gradient(circle at 28% 85%, rgba(255, 205, 70, 0.10), transparent 24%),
+        radial-gradient(circle at 74% 74%, rgba(255, 205, 70, 0.08), transparent 30%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
     .hb-countdown-content {
-      width: 92%;
+      position: relative;
+      z-index: 2;
+      width: 90%;
+      padding: 5cqw;
+    }
+
+    .hb-countdown-eyebrow {
+      font-size: 3.2cqw;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 2.8cqw;
+      opacity: 0.95;
     }
 
     .hb-countdown-title {
-      font-size: clamp(36px, 11vw, 54px);
-      margin-bottom: 28px;
+      font-size: 10.4cqw;
+      line-height: 0.96;
+      font-weight: 900;
+      letter-spacing: -0.055em;
+      margin: 0 0 6.2cqw;
     }
 
     .hb-countdown-timer {
-      gap: 6px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 2cqw;
+      width: 100%;
     }
 
     .hb-countdown-card {
-      border-radius: 10px;
-      padding: 12px 5px 10px;
+      border: 0.45cqw solid rgba(255, 255, 255, 0.92);
+      border-radius: 2.8cqw;
+      padding: 3cqw 1.1cqw 2.6cqw;
+      background: rgba(0, 0, 0, 0.08);
+      box-shadow: 0 3cqw 7cqw rgba(0, 0, 0, 0.18);
     }
 
     .hb-countdown-number {
-      font-size: clamp(24px, 8vw, 38px);
+      display: block;
+      font-size: 7.2cqw;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.04em;
     }
 
     .hb-countdown-label {
-      font-size: clamp(8px, 2.4vw, 12px);
-      letter-spacing: 0.04em;
+      display: block;
+      margin-top: 1.4cqw;
+      font-size: 2.35cqw;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
-  }
-</style>
 
-<div class="hb-countdown-wrap">
-  <section class="hb-countdown-artboard" aria-label="H&B Wellness Day Sale countdown">
-    <div class="hb-countdown-content">
-      <div class="hb-countdown-eyebrow">Countdown to</div>
+    .hb-countdown-date {
+      margin-top: 4.1cqw;
+      font-size: 3.6cqw;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
 
-      <h2 class="hb-countdown-title">H&amp;B Wellness Day Sale</h2>
+    .hb-confetti-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      overflow: hidden;
+    }
 
-      <div class="hb-countdown-timer" aria-live="polite">
-        <div class="hb-countdown-card">
-          <span class="hb-countdown-number" data-countdown-days>000</span>
-          <span class="hb-countdown-label">Days</span>
+    .hb-confetti {
+      position: absolute;
+      top: -8cqw;
+      width: var(--w);
+      height: var(--h);
+      left: var(--x);
+      background: var(--gold);
+      opacity: var(--opacity);
+      transform: rotate(var(--rotate));
+      animation: hb-confetti-fall var(--duration) linear var(--delay) infinite;
+      border-radius: 0.4cqw;
+      box-shadow: 0 0 2cqw rgba(255, 214, 87, 0.35);
+    }
+
+    .hb-confetti.circle {
+      border-radius: 50%;
+    }
+
+    @keyframes hb-confetti-fall {
+      0% {
+        transform: translate3d(0, -12cqw, 0) rotate(0deg);
+      }
+
+      50% {
+        transform: translate3d(var(--drift), 52cqw, 0) rotate(360deg);
+      }
+
+      100% {
+        transform: translate3d(calc(var(--drift) * -0.4), 112cqw, 0) rotate(720deg);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-confetti {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hb-countdown-wrap">
+    <section class="hb-countdown-artboard" aria-label="H&B Wellness Day Sale countdown">
+      <div class="hb-countdown-content">
+        <div class="hb-countdown-eyebrow">Countdown to</div>
+
+        <h2 class="hb-countdown-title">H&amp;B Wellness Day Sale</h2>
+
+        <div class="hb-countdown-timer" aria-live="polite">
+          <div class="hb-countdown-card">
+            <span class="hb-countdown-number" data-countdown-days>000</span>
+            <span class="hb-countdown-label">Days</span>
+          </div>
+
+          <div class="hb-countdown-card">
+            <span class="hb-countdown-number" data-countdown-hours>00</span>
+            <span class="hb-countdown-label">Hours</span>
+          </div>
+
+          <div class="hb-countdown-card">
+            <span class="hb-countdown-number" data-countdown-minutes>00</span>
+            <span class="hb-countdown-label">Mins</span>
+          </div>
+
+          <div class="hb-countdown-card">
+            <span class="hb-countdown-number" data-countdown-seconds>00</span>
+            <span class="hb-countdown-label">Secs</span>
+          </div>
         </div>
 
-        <div class="hb-countdown-card">
-          <span class="hb-countdown-number" data-countdown-hours>00</span>
-          <span class="hb-countdown-label">Hours</span>
-        </div>
-
-        <div class="hb-countdown-card">
-          <span class="hb-countdown-number" data-countdown-minutes>00</span>
-          <span class="hb-countdown-label">Mins</span>
-        </div>
-
-        <div class="hb-countdown-card">
-          <span class="hb-countdown-number" data-countdown-seconds>00</span>
-          <span class="hb-countdown-label">Secs</span>
-        </div>
+        <div class="hb-countdown-date">In stores 12 June 2026</div>
       </div>
 
-      <div class="hb-countdown-date">In stores 12 June 2026</div>
-    </div>
+      <div class="hb-confetti-layer" aria-hidden="true"></div>
+    </section>
+  </div>
 
-    <div class="hb-confetti-layer" aria-hidden="true"></div>
-  </section>
-</div>
+  <script>
+    (function () {
+      const TARGET_DATE = new Date("2026-06-12T00:00:00+01:00").getTime();
 
-<script>
-  (function () {
-    const countdown = document.querySelector(".hb-countdown-artboard");
+      function pad(number, length) {
+        return String(number).padStart(length || 2, "0");
+      }
 
-    if (!countdown) return;
+      function initCountdown(countdown) {
+        if (!countdown || countdown.dataset.hbCountdownReady === "true") return;
+        countdown.dataset.hbCountdownReady = "true";
 
-    const targetDate = new Date("2026-06-12T00:00:00+01:00").getTime();
+        const daysEl = countdown.querySelector("[data-countdown-days]");
+        const hoursEl = countdown.querySelector("[data-countdown-hours]");
+        const minutesEl = countdown.querySelector("[data-countdown-minutes]");
+        const secondsEl = countdown.querySelector("[data-countdown-seconds]");
 
-    const daysEl = countdown.querySelector("[data-countdown-days]");
-    const hoursEl = countdown.querySelector("[data-countdown-hours]");
-    const minutesEl = countdown.querySelector("[data-countdown-minutes]");
-    const secondsEl = countdown.querySelector("[data-countdown-seconds]");
+        if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
 
-    function pad(number, length = 2) {
-      return String(number).padStart(length, "0");
-    }
+        function updateCountdown() {
+          const now = new Date().getTime();
+          const distance = Math.max(0, TARGET_DATE - now);
 
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = Math.max(0, targetDate - now);
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+          const minutes = Math.floor((distance / (1000 * 60)) % 60);
+          const seconds = Math.floor((distance / 1000) % 60);
 
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((distance / (1000 * 60)) % 60);
-      const seconds = Math.floor((distance / 1000) % 60);
+          daysEl.textContent = pad(days, 3);
+          hoursEl.textContent = pad(hours, 2);
+          minutesEl.textContent = pad(minutes, 2);
+          secondsEl.textContent = pad(seconds, 2);
+        }
 
-      daysEl.textContent = pad(days, 3);
-      hoursEl.textContent = pad(hours);
-      minutesEl.textContent = pad(minutes);
-      secondsEl.textContent = pad(seconds);
-    }
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
 
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+        const confettiLayer = countdown.querySelector(".hb-confetti-layer");
 
-    const confettiLayer = countdown.querySelector(".hb-confetti-layer");
-    const golds = ["#FFD86B", "#D7A83F", "#FFF1A8", "#B88A22", "#F5C542"];
-    const pieces = 115;
+        if (confettiLayer && confettiLayer.children.length === 0) {
+          const golds = ["#FFD86B", "#D7A83F", "#FFF1A8", "#B88A22", "#F5C542"];
+          const pieces = 60;
 
-    for (let i = 0; i < pieces; i++) {
-      const piece = document.createElement("span");
-      piece.className = "hb-confetti" + (Math.random() > 0.78 ? " circle" : "");
+          for (let i = 0; i < pieces; i++) {
+            const piece = document.createElement("span");
+            piece.className = "hb-confetti" + (Math.random() > 0.78 ? " circle" : "");
 
-      piece.style.setProperty("--x", `${Math.random() * 100}%`);
-      piece.style.setProperty("--w", `${6 + Math.random() * 12}px`);
-      piece.style.setProperty("--h", `${8 + Math.random() * 20}px`);
-      piece.style.setProperty("--gold", golds[Math.floor(Math.random() * golds.length)]);
-      piece.style.setProperty("--opacity", `${0.45 + Math.random() * 0.55}`);
-      piece.style.setProperty("--rotate", `${Math.random() * 360}deg`);
-      piece.style.setProperty("--duration", `${5 + Math.random() * 7}s`);
-      piece.style.setProperty("--delay", `${Math.random() * -12}s`);
-      piece.style.setProperty("--drift", `${-180 + Math.random() * 360}px`);
+            piece.style.setProperty("--x", Math.random() * 100 + "%");
+            piece.style.setProperty("--w", 0.8 + Math.random() * 1.5 + "cqw");
+            piece.style.setProperty("--h", 1.1 + Math.random() * 2.4 + "cqw");
+            piece.style.setProperty("--gold", golds[Math.floor(Math.random() * golds.length)]);
+            piece.style.setProperty("--opacity", 0.45 + Math.random() * 0.55);
+            piece.style.setProperty("--rotate", Math.random() * 360 + "deg");
+            piece.style.setProperty("--duration", 5 + Math.random() * 7 + "s");
+            piece.style.setProperty("--delay", Math.random() * -12 + "s");
+            piece.style.setProperty("--drift", -18 + Math.random() * 36 + "cqw");
 
-      confettiLayer.appendChild(piece);
-    }
-  })();
-</script>
+            confettiLayer.appendChild(piece);
+          }
+        }
+      }
+
+      function initAllCountdowns() {
+        document.querySelectorAll(".hb-countdown-artboard").forEach(initCountdown);
+      }
+
+      initAllCountdowns();
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initAllCountdowns);
+      }
+
+      window.addEventListener("load", initAllCountdowns);
+    })();
+  </script>
+</body>
+</html>
