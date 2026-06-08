@@ -17,7 +17,7 @@
 
     .hb-countdown-wrap {
       width: 100%;
-      max-width: 1080px;
+      max-width: 300px;
       margin: 0 auto;
     }
 
@@ -55,48 +55,48 @@
     .hb-countdown-content {
       position: relative;
       z-index: 2;
-      width: 86%;
-      max-width: 940px;
-      padding: clamp(24px, 6vw, 70px);
+      width: 90%;
+      max-width: 280px;
+      padding: 12px;
     }
 
     .hb-countdown-eyebrow {
-      font-size: clamp(16px, 3.2vw, 34px);
+      font-size: 10px;
       font-weight: 800;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      margin-bottom: clamp(14px, 2.6vw, 28px);
+      margin-bottom: 6px;
       opacity: 0.95;
     }
 
     .hb-countdown-title {
-      font-size: clamp(42px, 10.8vw, 118px);
+      font-size: 16px;
       line-height: 0.96;
       font-weight: 900;
-      letter-spacing: -0.055em;
-      margin: 0 0 clamp(32px, 6.6vw, 72px);
+      letter-spacing: -0.04em;
+      margin: 0 0 12px;
     }
 
     .hb-countdown-timer {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: clamp(8px, 2vw, 22px);
+      gap: 4px;
       width: 100%;
     }
 
     .hb-countdown-card {
-      border: clamp(1px, 0.3vw, 3px) solid rgba(255, 255, 255, 0.92);
-      border-radius: clamp(12px, 2.6vw, 28px);
-      padding: clamp(14px, 3.2vw, 34px) clamp(8px, 1.6vw, 18px) clamp(12px, 2.8vw, 30px);
+      border: 1px solid rgba(255, 255, 255, 0.92);
+      border-radius: 6px;
+      padding: 6px 4px;
       background: rgba(0, 0, 0, 0.08);
       backdrop-filter: blur(2px);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
       contain: layout style paint;
     }
 
     .hb-countdown-number {
       display: block;
-      font-size: clamp(28px, 7.8vw, 84px);
+      font-size: 18px;
       line-height: 1;
       font-weight: 900;
       letter-spacing: -0.04em;
@@ -105,26 +105,26 @@
 
     .hb-countdown-label {
       display: block;
-      margin-top: clamp(6px, 1.5vw, 16px);
-      font-size: clamp(10px, 2.3vw, 25px);
+      margin-top: 2px;
+      font-size: 7px;
       line-height: 1;
       font-weight: 800;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
     }
 
     .hb-countdown-date {
-      margin-top: clamp(20px, 4vw, 44px);
-      font-size: clamp(16px, 3.2vw, 34px);
+      margin-top: 8px;
+      font-size: 10px;
       font-weight: 800;
       letter-spacing: 0.02em;
     }
 
     .hb-countdown-complete {
-      font-size: clamp(32px, 8vw, 68px);
+      font-size: 14px;
       font-weight: 900;
       letter-spacing: -0.05em;
-      margin-top: 40px;
+      margin-top: 12px;
       animation: pulse 2s ease-in-out infinite;
     }
 
@@ -143,7 +143,7 @@
 
     .hb-confetti {
       position: absolute;
-      top: -40px;
+      top: -20px;
       width: var(--w);
       height: var(--h);
       left: var(--x);
@@ -152,7 +152,7 @@
       transform: rotate(var(--rotate));
       animation: hb-confetti-fall var(--duration) linear var(--delay) infinite;
       border-radius: 2px;
-      box-shadow: 0 0 10px rgba(255, 214, 87, 0.35);
+      box-shadow: 0 0 8px rgba(255, 214, 87, 0.35);
       contain: layout style paint;
       will-change: transform;
     }
@@ -163,46 +163,17 @@
 
     @keyframes hb-confetti-fall {
       0% {
-        transform: translate3d(0, -80px, 0) rotate(0deg);
+        transform: translate3d(0, -40px, 0) rotate(0deg);
         opacity: var(--opacity);
       }
 
       50% {
-        transform: translate3d(var(--drift), 50vw, 0) rotate(360deg);
+        transform: translate3d(var(--drift), 30vh, 0) rotate(360deg);
       }
 
       100% {
-        transform: translate3d(calc(var(--drift) * -0.4), 110vw, 0) rotate(720deg);
+        transform: translate3d(calc(var(--drift) * -0.4), 65vh, 0) rotate(720deg);
         opacity: 0;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .hb-countdown-content {
-        width: 92%;
-      }
-
-      .hb-countdown-title {
-        font-size: clamp(36px, 11vw, 54px);
-        margin-bottom: 28px;
-      }
-
-      .hb-countdown-timer {
-        gap: 6px;
-      }
-
-      .hb-countdown-card {
-        border-radius: 10px;
-        padding: 12px 5px 10px;
-      }
-
-      .hb-countdown-number {
-        font-size: clamp(24px, 8vw, 38px);
-      }
-
-      .hb-countdown-label {
-        font-size: clamp(8px, 2.4vw, 12px);
-        letter-spacing: 0.04em;
       }
     }
   </style>
@@ -213,7 +184,7 @@
       <div class="hb-countdown-content">
         <div class="hb-countdown-eyebrow">Countdown to</div>
 
-        <h1 class="hb-countdown-title">H&amp;B Wellness Day Sale</h1>
+        <h1 class="hb-countdown-title">H&amp;B Wellness Day</h1>
 
         <div class="hb-countdown-timer" aria-live="assertive" aria-atomic="true">
           <div class="hb-countdown-card">
@@ -237,7 +208,7 @@
           </div>
         </div>
 
-        <div class="hb-countdown-date">In stores 12 June 2026</div>
+        <div class="hb-countdown-date">12 June 2026</div>
       </div>
 
       <div class="hb-confetti-layer" aria-hidden="true"></div>
@@ -249,7 +220,7 @@
       const CONFIG = {
         targetDate: new Date("2026-06-12T00:00:00+01:00").getTime(),
         goldColors: ["#FFD86B", "#D7A83F", "#FFF1A8", "#B88A22", "#F5C542"],
-        confettiPieces: window.matchMedia("(max-width: 480px)").matches ? 40 : 115,
+        confettiPieces: 20,
         updateInterval: 1000
       };
 
@@ -314,14 +285,14 @@
           piece.className = "hb-confetti" + (Math.random() > 0.78 ? " circle" : "");
 
           piece.style.setProperty("--x", `${Math.random() * 100}%`);
-          piece.style.setProperty("--w", `${6 + Math.random() * 12}px`);
-          piece.style.setProperty("--h", `${8 + Math.random() * 20}px`);
+          piece.style.setProperty("--w", `${3 + Math.random() * 6}px`);
+          piece.style.setProperty("--h", `${4 + Math.random() * 10}px`);
           piece.style.setProperty("--gold", CONFIG.goldColors[Math.floor(Math.random() * CONFIG.goldColors.length)]);
           piece.style.setProperty("--opacity", `${0.45 + Math.random() * 0.55}`);
           piece.style.setProperty("--rotate", `${Math.random() * 360}deg`);
           piece.style.setProperty("--duration", `${5 + Math.random() * 7}s`);
           piece.style.setProperty("--delay", `${Math.random() * -12}s`);
-          piece.style.setProperty("--drift", `${-180 + Math.random() * 360}px`);
+          piece.style.setProperty("--drift", `${-80 + Math.random() * 160}px`);
 
           confettiLayer.appendChild(piece);
         }
