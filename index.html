@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=300, initial-scale=1.0" />
   <title>H&B Wellness Day Countdown</title>
 
   <style>
@@ -10,13 +10,13 @@
       box-sizing: border-box;
     }
 
+    html,
     body {
       margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background: #f5f5f5;
+      padding: 0;
+      width: 300px;
+      height: 300px;
+      overflow: hidden;
       font-family: Arial, Helvetica, sans-serif;
     }
 
@@ -32,13 +32,14 @@
       text-align: center;
       color: #ffffff;
       font-weight: bold;
-      padding: 22px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
     }
 
     .confetti-container {
       position: absolute;
       inset: 0;
+      width: 300px;
+      height: 300px;
       overflow: hidden;
       pointer-events: none;
       z-index: 1;
@@ -47,22 +48,21 @@
     .confetti {
       position: absolute;
       top: -20px;
-      width: 6px;
-      height: 12px;
+      width: 5px;
+      height: 10px;
       background: #d4af37;
       opacity: 0.65;
       border-radius: 1px;
-      animation-name: fall;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
+      animation: fall linear infinite;
     }
 
     @keyframes fall {
       0% {
         transform: translateY(-20px) rotate(0deg);
       }
+
       100% {
-        transform: translateY(340px) rotate(360deg);
+        transform: translateY(330px) rotate(360deg);
       }
     }
 
@@ -73,11 +73,12 @@
     }
 
     h1 {
-      margin: 0 0 18px;
-      font-size: 22px;
+      margin: 0 0 16px;
+      font-size: 21px;
       line-height: 1.15;
       color: #ffffff;
       font-weight: bold;
+      text-align: center;
     }
 
     .ampersand {
@@ -88,19 +89,19 @@
       width: 70%;
       height: 2px;
       background: #ffffff;
-      margin: 0 auto 18px;
+      margin: 0 auto 16px;
     }
 
     .timer {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+      gap: 9px;
       width: 100%;
     }
 
     .time-box {
       border: 2px solid #ffffff;
-      padding: 8px 4px;
+      padding: 7px 4px;
       color: #ffffff;
       font-weight: bold;
       text-align: center;
@@ -108,51 +109,49 @@
 
     .number {
       display: block;
-      font-size: 25px;
+      font-size: 24px;
       line-height: 1;
       color: #ffffff;
       font-weight: bold;
-      min-height: 30px;
     }
 
     .label {
       display: block;
       margin-top: 4px;
       font-size: 10px;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.6px;
       text-transform: uppercase;
       color: #ffffff;
       font-weight: bold;
-    }
-
-    .finished {
-      font-size: 18px;
-      padding: 20px;
     }
   </style>
 </head>
 
 <body>
-  <div class="countdown-widget" id="widget">
+  <div class="countdown-widget">
     <div class="confetti-container" id="confettiContainer"></div>
 
     <div class="content">
       <h1>Get Ready for H<span class="ampersand">&amp;</span>B Wellness Day</h1>
+
       <div class="divider"></div>
 
-      <div class="timer" id="timerDisplay">
+      <div class="timer">
         <div class="time-box">
           <span class="number" id="days">00</span>
           <span class="label">Days</span>
         </div>
+
         <div class="time-box">
           <span class="number" id="hours">00</span>
           <span class="label">Hours</span>
         </div>
+
         <div class="time-box">
           <span class="number" id="minutes">00</span>
           <span class="label">Minutes</span>
         </div>
+
         <div class="time-box">
           <span class="number" id="seconds">00</span>
           <span class="label">Seconds</span>
@@ -162,28 +161,17 @@
   </div>
 
   <script>
-    // Configuration - easily adjustable
-    const CONFIG = {
-      targetDate: "2026-06-12T00:00:00",
-      updateInterval: 1000, // milliseconds
-      confettiCount: 25, // reduced from 45 to avoid performance issues
-      goldColours: ["#d4af37", "#f7d774", "#c89b3c", "#ffd700"]
-    };
-
-    let countdownInterval = null;
+    const targetDate = new Date(2026, 5, 12, 0, 0, 0).getTime();
 
     function updateCountdown() {
-      const targetTime = new Date(CONFIG.targetDate).getTime();
       const now = new Date().getTime();
-      const distance = targetTime - now;
+      const distance = targetDate - now;
 
       if (distance <= 0) {
-        // Countdown finished
-        document.getElementById("timerDisplay").innerHTML = 
-          '<div class="finished">🎉 Event Started! 🎉</div>';
-        if (countdownInterval) {
-          clearInterval(countdownInterval);
-        }
+        document.getElementById("days").textContent = "00";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
         return;
       }
 
@@ -200,39 +188,30 @@
 
     function createFallingConfetti() {
       const container = document.getElementById("confettiContainer");
-      
-      // Clear existing confetti
-      container.innerHTML = "";
+      const goldColours = ["#d4af37", "#f7d774", "#ffd700", "#c89b3c"];
 
-      for (let i = 0; i < CONFIG.confettiCount; i++) {
+      for (let i = 0; i < 35; i++) {
         const piece = document.createElement("span");
-        piece.className = "confetti";
 
+        piece.className = "confetti";
         piece.style.left = Math.random() * 300 + "px";
-        piece.style.background = CONFIG.goldColours[
-          Math.floor(Math.random() * CONFIG.goldColours.length)
-        ];
+        piece.style.backgroundColor = goldColours[Math.floor(Math.random() * goldColours.length)];
         piece.style.animationDuration = 3 + Math.random() * 4 + "s";
         piece.style.animationDelay = Math.random() * -7 + "s";
-        piece.style.transform = "rotate(" + Math.random() * 360 + "deg)";
-        piece.style.opacity = 0.35 + Math.random() * 0.4;
+        piece.style.opacity = 0.35 + Math.random() * 0.35;
 
         if (Math.random() > 0.5) {
           piece.style.width = "4px";
-          piece.style.height = "10px";
+          piece.style.height = "8px";
         }
 
         container.appendChild(piece);
       }
     }
 
-    // Initialize countdown
     updateCountdown();
-    countdownInterval = setInterval(updateCountdown, CONFIG.updateInterval);
+    setInterval(updateCountdown, 1000);
     createFallingConfetti();
-
-    // Optional: Recreate confetti periodically for variety
-    setInterval(createFallingConfetti, 15000); // Every 15 seconds
   </script>
 </body>
 </html>
