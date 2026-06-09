@@ -16,7 +16,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: #ffffff;
+      background: #f5f5f5;
       font-family: Arial, Helvetica, sans-serif;
     }
 
@@ -33,6 +33,7 @@
       color: #ffffff;
       font-weight: bold;
       padding: 22px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .confetti-container {
@@ -111,6 +112,7 @@
       line-height: 1;
       color: #ffffff;
       font-weight: bold;
+      min-height: 30px;
     }
 
     .label {
@@ -121,6 +123,11 @@
       text-transform: uppercase;
       color: #ffffff;
       font-weight: bold;
+    }
+
+    .finished {
+      font-size: 18px;
+      padding: 20px;
     }
   </style>
 </head>
@@ -133,7 +140,7 @@
       <h1>Get Ready for H<span class="ampersand">&amp;</span>B Wellness Day</h1>
       <div class="divider"></div>
 
-      <div class="timer">
+      <div class="timer" id="timerDisplay">
         <div class="time-box">
           <span class="number" id="days">00</span>
           <span class="label">Days</span>
@@ -155,17 +162,28 @@
   </div>
 
   <script>
-    const targetDate = new Date("2026-06-12T00:00:00").getTime();
+    // Configuration - easily adjustable
+    const CONFIG = {
+      targetDate: "2026-06-12T00:00:00",
+      updateInterval: 1000, // milliseconds
+      confettiCount: 25, // reduced from 45 to avoid performance issues
+      goldColours: ["#d4af37", "#f7d774", "#c89b3c", "#ffd700"]
+    };
+
+    let countdownInterval = null;
 
     function updateCountdown() {
+      const targetTime = new Date(CONFIG.targetDate).getTime();
       const now = new Date().getTime();
-      const distance = targetDate - now;
+      const distance = targetTime - now;
 
       if (distance <= 0) {
-        document.getElementById("days").textContent = "00";
-        document.getElementById("hours").textContent = "00";
-        document.getElementById("minutes").textContent = "00";
-        document.getElementById("seconds").textContent = "00";
+        // Countdown finished
+        document.getElementById("timerDisplay").innerHTML = 
+          '<div class="finished">🎉 Event Started! 🎉</div>';
+        if (countdownInterval) {
+          clearInterval(countdownInterval);
+        }
         return;
       }
 
@@ -182,14 +200,18 @@
 
     function createFallingConfetti() {
       const container = document.getElementById("confettiContainer");
-      const goldColours = ["#d4af37", "#f7d774", "#c89b3c", "#ffd700"];
+      
+      // Clear existing confetti
+      container.innerHTML = "";
 
-      for (let i = 0; i < 45; i++) {
+      for (let i = 0; i < CONFIG.confettiCount; i++) {
         const piece = document.createElement("span");
         piece.className = "confetti";
 
         piece.style.left = Math.random() * 300 + "px";
-        piece.style.background = goldColours[Math.floor(Math.random() * goldColours.length)];
+        piece.style.background = CONFIG.goldColours[
+          Math.floor(Math.random() * CONFIG.goldColours.length)
+        ];
         piece.style.animationDuration = 3 + Math.random() * 4 + "s";
         piece.style.animationDelay = Math.random() * -7 + "s";
         piece.style.transform = "rotate(" + Math.random() * 360 + "deg)";
@@ -204,9 +226,13 @@
       }
     }
 
+    // Initialize countdown
     updateCountdown();
-    setInterval(updateCountdown, 1000);
+    countdownInterval = setInterval(updateCountdown, CONFIG.updateInterval);
     createFallingConfetti();
+
+    // Optional: Recreate confetti periodically for variety
+    setInterval(createFallingConfetti, 15000); // Every 15 seconds
   </script>
 </body>
 </html>
